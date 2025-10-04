@@ -102,7 +102,7 @@ const handleLogin = async () => {
         className="flex items-center justify-center gap-3 border border-gray-300 hover:bg-gray-100 rounded-lg py-3 font-semibold transition"
       >
         <img
-          src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg"
+          src="googlelogo.png"
           alt="Google"
           className="w-6 h-6"
         />
