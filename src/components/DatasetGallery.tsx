@@ -1,51 +1,68 @@
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Globe, Mountain, Moon, Sparkles, ArrowRight } from "lucide-react";
+import { Globe, Mountain, Moon, Sparkles, ArrowRight, Check } from "lucide-react";
 import heroEarth from "@/assets/hero-earth.jpg";
 import marsSurface from "@/assets/mars-surface.jpg";
 import moonSurface from "@/assets/moon-surface.jpg";
 import deepSpace from "@/assets/deep-space.jpg";
+import type { Dataset } from "@/pages/Index";
 
-const datasets = [
+export const datasets: Dataset[] = [
   {
     id: "earth",
     title: "Earth Observations",
     description: "High-resolution satellite imagery capturing our planet's beauty and complexity",
     image: heroEarth,
-    icon: Globe,
     resolution: "10 Gigapixel",
     updates: "Daily",
+    coordinates: "0.00°N, 0.00°E",
+    captureDate: "2024-03-20",
   },
   {
     id: "mars",
     title: "Mars Surface",
     description: "Detailed maps of the red planet from Mars Reconnaissance Orbiter",
     image: marsSurface,
-    icon: Mountain,
     resolution: "1 Gigapixel",
     updates: "Weekly",
+    coordinates: "18.85°S, 77.52°W",
+    captureDate: "2024-03-15",
   },
   {
     id: "moon",
     title: "Lunar Maps",
     description: "Comprehensive surface data from Lunar Reconnaissance Orbiter",
     image: moonSurface,
-    icon: Moon,
     resolution: "2 Gigapixel",
     updates: "Monthly",
+    coordinates: "0.00°N, 23.47°E",
+    captureDate: "2024-03-10",
   },
   {
     id: "space",
     title: "Deep Space",
     description: "Stunning images of distant galaxies, nebulae, and cosmic phenomena",
     image: deepSpace,
-    icon: Sparkles,
     resolution: "2.5 Gigapixel",
     updates: "Variable",
+    coordinates: "RA 00h 42m 44s",
+    captureDate: "2024-03-01",
   },
 ];
 
-export const DatasetGallery = () => {
+const iconMap = {
+  earth: Globe,
+  mars: Mountain,
+  moon: Moon,
+  space: Sparkles,
+};
+
+type DatasetGalleryProps = {
+  onSelectDataset: (dataset: Dataset) => void;
+  selectedId?: string;
+};
+
+export const DatasetGallery = ({ onSelectDataset, selectedId }: DatasetGalleryProps) => {
   return (
     <section id="datasets" className="py-24 px-6">
       <div className="container mx-auto">
@@ -60,11 +77,14 @@ export const DatasetGallery = () => {
 
         <div className="grid md:grid-cols-2 gap-8 max-w-6xl mx-auto">
           {datasets.map((dataset) => {
-            const Icon = dataset.icon;
+            const Icon = iconMap[dataset.id as keyof typeof iconMap];
+            const isSelected = selectedId === dataset.id;
             return (
               <Card 
                 key={dataset.id}
-                className="group relative overflow-hidden bg-card/50 backdrop-blur-sm border-border/50 hover:border-primary/50 transition-all duration-300 hover:shadow-glow-md"
+                className={`group relative overflow-hidden bg-card/50 backdrop-blur-sm border-border/50 hover:border-primary/50 transition-all duration-300 hover:shadow-glow-md ${
+                  isSelected ? "ring-2 ring-primary shadow-glow-md" : ""
+                }`}
               >
                 {/* Background Image */}
                 <div 
@@ -73,6 +93,14 @@ export const DatasetGallery = () => {
                 >
                   <div className="absolute inset-0 bg-gradient-to-t from-card via-card/80 to-card/40" />
                 </div>
+
+                {/* Selected Badge */}
+                {isSelected && (
+                  <div className="absolute top-4 right-4 z-10 bg-primary text-primary-foreground px-3 py-1 rounded-full flex items-center gap-2 text-sm font-semibold">
+                    <Check className="h-4 w-4" />
+                    Viewing
+                  </div>
+                )}
 
                 {/* Content */}
                 <div className="relative p-8 min-h-[400px] flex flex-col justify-between">
@@ -94,9 +122,16 @@ export const DatasetGallery = () => {
                       </div>
                     </div>
 
-                    <Button className="w-full" variant="outline">
-                      Explore Dataset
-                      <ArrowRight className="ml-2 h-4 w-4" />
+                    <Button 
+                      className="w-full" 
+                      variant={isSelected ? "default" : "outline"}
+                      onClick={() => {
+                        onSelectDataset(dataset);
+                        document.getElementById("viewer")?.scrollIntoView({ behavior: "smooth" });
+                      }}
+                    >
+                      {isSelected ? "Currently Viewing" : "Explore Dataset"}
+                      {!isSelected && <ArrowRight className="ml-2 h-4 w-4" />}
                     </Button>
                   </div>
                 </div>
