@@ -57,9 +57,15 @@ const handleLogin = async () => {
   };
 
   const handleGoogleLogin = async () => {
-    const { error } = await supabase.auth.signInWithOAuth({ provider: "google" });
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider: "google",
+      options: {
+        redirectTo: `${window.location.origin}/dashboard`, // or your callback page
+      },
+    });
     if (error) alert(error.message);
   };
+
   return (
   <div className="flex items-center justify-center min-h-screen bg-gradient-to-r from-blue-400 via-purple-500 to-pink-500">
     <div className="bg-white p-10 rounded-3xl shadow-xl w-96 flex flex-col gap-6">
@@ -101,13 +107,10 @@ const handleLogin = async () => {
         onClick={handleGoogleLogin}
         className="flex items-center justify-center gap-3 border border-gray-300 hover:bg-gray-100 rounded-lg py-3 font-semibold transition"
       >
-        <img
-          src="googlelogo.png"
-          alt="Google"
-          className="w-6 h-6"
-        />
+        <img src="/google-logo.svg" alt="Google" className="w-6 h-6" />
         Continue with Google
       </button>
+
     </div>
   </div>
   );
