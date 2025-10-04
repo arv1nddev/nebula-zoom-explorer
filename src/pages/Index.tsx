@@ -107,13 +107,10 @@ const handleLogin = async () => {
         onClick={handleGoogleLogin}
         className="flex items-center justify-center gap-3 border border-gray-300 hover:bg-gray-100 rounded-lg py-3 font-semibold transition"
       >
-        <img
-          src="googlelogo.png"
-          alt="Google"
-          className="w-6 h-6"
-        />
+        <img src="/google-logo.svg" alt="Google" className="w-6 h-6" />
         Continue with Google
       </button>
+
     </div>
   </div>
   );
