@@ -7,6 +7,7 @@ import { Features } from "@/components/Features";
 import { Footer } from "@/components/Footer";
 import { supabase } from "@/supabaseClient";
 import { AuthContext } from "@/contexts/AuthContext";
+import OpenSeaDragonViewer from "../components/OpenSeaDragonViewer";
 
 export type Dataset = {
   id: string;
@@ -33,6 +34,7 @@ const Index = () => {
       <Navigation />
       <main className="pt-16">
         <Hero />
+         <OpenSeaDragonViewer />
         <DatasetGallery onSelectDataset={setSelectedDataset} selectedId={selectedDataset?.id} />
         <ImageViewer dataset={selectedDataset} />
         <Features />

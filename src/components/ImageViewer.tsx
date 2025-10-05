@@ -16,6 +16,7 @@ import {
 import { toast } from "sonner";
 import type { Dataset } from "@/pages/Index";
 import { datasets } from "./DatasetGallery";
+import OpenSeaDragonViewer from "./OpenSeaDragonViewer";
 
 type ImageViewerProps = {
   dataset: Dataset | null;
